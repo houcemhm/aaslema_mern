@@ -7,14 +7,16 @@ import multer from "multer";
 import helmet from "helmet";
 import morgan from "morgan";
 import path from "path";
-
+import { users,posts } from "./data/index.js";
 import { fileURLToPath } from "url";
 import{register} from "./controllers/auth.js";
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/users.js";
 import postRoutes from "./routes/posts.js";
 import { verifyToken } from "./middleware/auth.js";
-import { create } from "domain";
+import { createPost } from "./controllers/posts.js";
+import User from "./models/User.js";
+import Post from "./models/Post.js";
 
 
 
@@ -74,7 +76,9 @@ mongoose.connect(process.env.MONGO_URL,{
 }).then(()=>{
     app.listen(PORT,()=>{
         console.log(`Server Port : ${PORT}`);
-    })
+    });
+    // User.insertMany(users);
+    // Post.insertMany(posts);
 }).catch((error)=>
 console.log(`${error} did not connect`)
 );
