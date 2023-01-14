@@ -10,19 +10,20 @@ const Friend =({friendId,name,subtitle,userPicturePath})=>{
     const navigate =useNavigate();
     const {_id}=useSelector((state)=>state.user);
     const token =useSelector((state)=>state.token);
-    const friends =useSelector((state)=>state.user.Friends);
-   
+    const friends =useSelector((state)=>state.user.friends);
+    console.log(friends);
     const {palette} =useTheme();
     const primaryLight= palette.primary.light;
     const primaryDark= palette.primary.dark;
     const main=palette.neutral.main;
     const medium = palette.neutral.medium;
-   
-    const isFriend= friends.find((friend)=>friend._id===friendId) 
- 
-    const patchFrind = async()=> {
+    var isFriend = Array.from(friends).find((friend) => {
+      return (friend._id === friendId);
+    });
+ console.log(isFriend);
+    const patchFriend = async()=> {
         const response=await fetch(`http://localhost:3001/users/${_id}/${friendId}`,{
-            method:"POST",
+            method:"PATCH",
             headers:{
                 Authorization:`Bearer ${token}`,
                 "Content-Type":"application/json",
@@ -45,7 +46,7 @@ const Friend =({friendId,name,subtitle,userPicturePath})=>{
           <Typography
             color={main}
             variant="h5"
-            fontWeight="5ßß"
+            fontWeight="5"
             sx={{
               "&:hover": {
                 color: palette.primary.light,
@@ -65,9 +66,9 @@ const Friend =({friendId,name,subtitle,userPicturePath})=>{
           backgroundColor: primaryLight,
           p: "0.6rem",
         }}
-        onClick={() => patchFrind()}
+        onClick={() => patchFriend()}
       >
-        {isFriend ? (
+        {isFriend===true ? (
           <PersonRemoveOutlined
             sx={{
               color: primaryDark,
